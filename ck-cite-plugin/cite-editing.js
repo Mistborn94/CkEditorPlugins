@@ -1,10 +1,13 @@
-import { CiteConstants as CiteConstants} from './cite-constants';
+import { CiteConstants as CiteConstants } from './cite-constants';
 import Plugin from '@ckeditor/ckeditor5-core/src/plugin'
 import Schema from '@ckeditor/ckeditor5-engine/src/model/schema'
 import CiteCommand from "./cite-command";
 
-import './cite-editor.css';
+import './cite-editing.css';
 
+/**
+ * The cite editing plugin
+ */
 export default class CiteEditing extends Plugin {
 
     init() {
@@ -18,8 +21,9 @@ export default class CiteEditing extends Plugin {
 
     /**
      * Register the element
+     * @private
      *
-     * See https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/schema.html
+     * @see https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/schema.html
      */
     _defineSchema() {
         /**
@@ -49,10 +53,17 @@ export default class CiteEditing extends Plugin {
 
     }
 
+    /**
+     * Register converters to convert between the model (the editor's internal representation) and the view (html).
+     * @private
+     *
+     * @see https://ckeditor.com/docs/ckeditor5/latest/framework/guides/architecture/editing-engine.html
+     */
     _defineConverters() {
         const conversion = this.editor.conversion;
 
         //Original simple conversion
+        //For more complex conversion, separate upcast and downcast converters can be defined
         conversion.elementToElement( { model: CiteConstants.model, view: CiteConstants.element } );
 
     }

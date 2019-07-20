@@ -1,3 +1,7 @@
+/**
+* Rules to render the cite element in the editor
+*/
+
 cite {
     font-size: smaller;
     text-indent: 1em;
