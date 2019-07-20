@@ -1,0 +1,9 @@
+cite {
+    font-size: smaller;
+    text-indent: 1em;
+    font-style: normal;
+}
+
+cite::before {
+    content: '-';
+}

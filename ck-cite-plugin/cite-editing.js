@@ -1,46 +1,18 @@
 import Plugin from '@ckeditor/ckeditor5-core/src/plugin'
-import ButtonView from "@ckeditor/ckeditor5-ui/src/button/buttonview";
-import pencilIcon from '@ckeditor/ckeditor5-core/theme/icons/pencil.svg';
-import Editor from '@ckeditor/ckeditor5-core/src/editor/editor'
-import EditorUI from '@ckeditor/ckeditor5-core/src/editor/editorui'
 import Schema from '@ckeditor/ckeditor5-engine/src/model/schema'
+import CiteCommand from "./cite-command";
+
+import './cite-editor.css';
 
 export default class CiteEditing extends Plugin {
 
     init() {
-        /**
-         * @type {Editor, {ui: EditorUI}}
-         */
         const editor = this.editor;
-
-        let ui = editor.ui;
-
-        ui.componentFactory.add('insertCitation', locale => {
-            const view = new ButtonView(locale);
-
-            view.set({
-                label: 'Insert citation',
-                icon: pencilIcon,
-                tooltip: true
-            });
-
-
-            view.on('execute', () => {
-
-                editor.model.change(writer => {
-                    console.log("Created Element");
-                    const element = writer.createElement('citation', {});
-
-                    editor.model.insertContent(element, editor.model.document.selection);
-                });
-            });
-
-            return view;
-        });
-
 
         this._defineSchema();
         this._defineConverters();
+
+        editor.commands.add('citationCommand', new CiteCommand(editor));
     }
 
     /**
@@ -54,23 +26,59 @@ export default class CiteEditing extends Plugin {
          */
         const schema = this.editor.model.schema;
 
+        //Citation objects are allowed anywhere text is
         schema.register('citation', {
-            allowWhere: '$text'
+            allowWhere: '$text',
+            isObject: true,
+            isInline: true
         });
 
-        schema.extend( '$text', {
+        //Text is allowed inside citations
+        schema.extend('$text', {
             allowIn: 'citation'
-        } );
+        });
+
+        //We need to prevent citations inside citations
+        schema.addChildCheck( ( context, childDefinition  ) => {
+            if ( context.endsWith( 'citation' ) && childDefinition .name === 'citation' ) {
+                return false;
+            }
+        });
+
     }
 
     _defineConverters() {
         const conversion = this.editor.conversion;
 
-        conversion.elementToElement({
-            model: 'citation',
-            view: {
-                name: 'cite'
-            }
-        });
+        //Original simple conversion
+        conversion.elementToElement( { model: 'citation', view: 'cite' } );
+
+        // Alternative widget-based implementation:
+        //Upcast: Html -> Model (Loading the content into the editor)
+        // conversion.for('upcast').elementToElement({
+        //     model: 'citation',
+        //     view: {
+        //         name: 'cite'
+        //     }
+        // });
+        //
+        // //Data Downcast: Model -> Html (Retrieving the data from the editor)
+        // conversion.for('dataDowncast').elementToElement({
+        //     model: 'citation',
+        //     view: {
+        //         name: 'cite'
+        //     }
+        // });
+        //
+        // //Editing Downcast : Model -> Html (Creating the Html during editing)
+        // conversion.for( 'editingDowncast' ).elementToElement( {
+        //     model: 'citation',
+        //     view: ( modelElement, viewWriter ) => {
+        //         // Note: You use a more specialized createEditableElement() method here.
+        //         const element = viewWriter.createEditableElement( 'cite' );
+        //
+        //         return toWidgetEditable( element, viewWriter );
+        //     }
+        // } );
     }
 }
