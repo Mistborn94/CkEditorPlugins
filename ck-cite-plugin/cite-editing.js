@@ -1,3 +1,4 @@
+import { CiteConstants as CiteConstants} from './cite-constants';
 import Plugin from '@ckeditor/ckeditor5-core/src/plugin'
 import Schema from '@ckeditor/ckeditor5-engine/src/model/schema'
 import CiteCommand from "./cite-command";
@@ -12,7 +13,7 @@ export default class CiteEditing extends Plugin {
         this._defineSchema();
         this._defineConverters();
 
-        editor.commands.add('citationCommand', new CiteCommand(editor));
+        editor.commands.add(CiteConstants.command, new CiteCommand(editor));
     }
 
     /**
@@ -25,9 +26,10 @@ export default class CiteEditing extends Plugin {
          * @type Schema
          */
         const schema = this.editor.model.schema;
+        let modelName = CiteConstants.model;
 
         //Citation objects are allowed anywhere text is
-        schema.register('citation', {
+        schema.register(modelName, {
             allowWhere: '$text',
             isObject: true,
             isInline: true
@@ -35,12 +37,12 @@ export default class CiteEditing extends Plugin {
 
         //Text is allowed inside citations
         schema.extend('$text', {
-            allowIn: 'citation'
+            allowIn: modelName
         });
 
         //We need to prevent citations inside citations
         schema.addChildCheck( ( context, childDefinition  ) => {
-            if ( context.endsWith( 'citation' ) && childDefinition .name === 'citation' ) {
+            if ( context.endsWith( modelName) && childDefinition.name === modelName ) {
                 return false;
             }
         });
@@ -51,34 +53,7 @@ export default class CiteEditing extends Plugin {
         const conversion = this.editor.conversion;
 
         //Original simple conversion
-        conversion.elementToElement( { model: 'citation', view: 'cite' } );
+        conversion.elementToElement( { model: CiteConstants.model, view: CiteConstants.element } );
 
-        // Alternative widget-based implementation:
-        //Upcast: Html -> Model (Loading the content into the editor)
-        // conversion.for('upcast').elementToElement({
-        //     model: 'citation',
-        //     view: {
-        //         name: 'cite'
-        //     }
-        // });
-        //
-        // //Data Downcast: Model -> Html (Retrieving the data from the editor)
-        // conversion.for('dataDowncast').elementToElement({
-        //     model: 'citation',
-        //     view: {
-        //         name: 'cite'
-        //     }
-        // });
-        //
-        // //Editing Downcast : Model -> Html (Creating the Html during editing)
-        // conversion.for( 'editingDowncast' ).elementToElement( {
-        //     model: 'citation',
-        //     view: ( modelElement, viewWriter ) => {
-        //         // Note: You use a more specialized createEditableElement() method here.
-        //         const element = viewWriter.createEditableElement( 'cite' );
-        //
-        //         return toWidgetEditable( element, viewWriter );
-        //     }
-        // } );
     }
 }

@@ -1,3 +1,4 @@
+import { CiteConstants } from './cite-constants';
 import Command from '@ckeditor/ckeditor5-core/src/command';
 
 export default class CiteCommand extends Command {
@@ -7,11 +8,11 @@ export default class CiteCommand extends Command {
         model.change(writer => {
             const selection = model.document.selection;
 
-
-            for (const range of selection.getRanges()) {
-                writer.wrap(selection.getFirstRange(), 'citation');
+            if (!this.value) {
+                writer.wrap(selection.getFirstRange(), CiteConstants.model);
+            } else {
+                writer.unwrap(selection.getFirstPosition().parent);
             }
-
         });
     }
 
@@ -25,8 +26,10 @@ export default class CiteCommand extends Command {
     refresh() {
         const model = this.editor.model;
         const selection = model.document.selection;
-        const allowedIn = model.schema.findAllowedParent(selection.getFirstPosition(), 'citation');
+        const allowedIn = model.schema.findAllowedParent(selection.getFirstPosition(), CiteConstants.model);
+        const isInCitation = selection.getFirstPosition().parent.name === CiteConstants.model;
 
-        this.isEnabled = allowedIn !== null;
+        this.isEnabled = allowedIn !== null || isInCitation;
+        this.value = isInCitation;
     }
 }

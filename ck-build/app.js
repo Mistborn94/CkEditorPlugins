@@ -11,7 +11,7 @@ import CKEditorInspector from '@ckeditor/ckeditor5-inspector';
 ClassicEditor
     .create( document.querySelector( '#editor' ), {
         plugins: [ Essentials, Paragraph, Bold, Italic, Image, CitePlugin, BlockQuote],
-        toolbar: [ 'bold', 'italic', 'citation', 'blockQuote' ]
+        toolbar: [ 'bold', 'italic', CitePlugin.componentName, 'blockQuote' ]
     } )
     .then( editor => {
         CKEditorInspector.attach( editor );
