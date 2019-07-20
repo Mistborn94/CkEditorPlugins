@@ -1,0 +1,22 @@
+{
+  "name": "@mistborn94/ck-cite-plugin",
+  "version": "1.0.0",
+  "description": "CKEditor 5 plugin to support the <cite> tag",
+  "main": "cite.js",
+  "keywords": [
+    "ckeditor5",
+    "ckeditor",
+    "cite",
+    "plugin"
+  ],
+  "author": "Renette Ros",
+  "license": "ISC",
+  "dependencies": {
+    "@ckeditor/ckeditor5-core": "^12.2.1",
+    "@ckeditor/ckeditor5-ui": "^13.0.2",
+    "@ckeditor/ckeditor5-widget": "^11.0.4"
+  },
+  "devDependencies": {
+    "@ckeditor/ckeditor5-engine": "^13.2.1"
+  }
+}

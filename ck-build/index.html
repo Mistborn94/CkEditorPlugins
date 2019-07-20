@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Ck Plugin Tester</title>
+    <style>
+        cite {
+            font-size: smaller;
+            text-indent: 1em;
+            font-style: normal;
+        }
+
+        cite::before {
+            content: '-';
+        }
+
+    </style>
+</head>
+<body>
+<div id="editor">
+    <p>Simple image: <cite>Test1</cite> </p>
+
+    <p> Another paragraph here </p>
+
+    <blockquote>
+        This is a quote
+    <cite>With a citation</cite>
+    </blockquote>
+</div>
+
+<script src="dist/bundle.js"></script>
+</body>
+</html>

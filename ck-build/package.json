@@ -1,0 +1,32 @@
+{
+  "name": "ck-build",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build-watch": "webpack -w --mode development",
+    "install-plugin": "npm install ../ck-cite-plugin/mistborn94-ck-cite-plugin-1.0.0.tgz"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ckeditor/ckeditor5-basic-styles": "^11.1.3",
+    "@ckeditor/ckeditor5-block-quote": "^11.1.2",
+    "@ckeditor/ckeditor5-dev-utils": "^12.0.2",
+    "@ckeditor/ckeditor5-editor-classic": "^12.1.3",
+    "@ckeditor/ckeditor5-essentials": "^11.0.4",
+    "@ckeditor/ckeditor5-image": "^13.1.2",
+    "@ckeditor/ckeditor5-paragraph": "^11.0.4",
+    "@ckeditor/ckeditor5-theme-lark": "^14.1.1",
+    "@mistborn94/ck-cite-plugin": "file:../ck-cite-plugin",
+    "pac": "^1.0.0",
+    "postcss-loader": "^3.0.0",
+    "raw-loader": "^3.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.36.1",
+    "webpack-cli": "^3.3.6"
+  },
+  "devDependencies": {
+    "@ckeditor/ckeditor5-inspector": "^1.3.0"
+  }
+}
