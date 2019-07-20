@@ -7,8 +7,6 @@
     "build-watch": "webpack -w --mode development",
     "install-plugin": "npm install ../ck-cite-plugin/mistborn94-ck-cite-plugin-1.0.0.tgz"
   },
-  "author": "Renette Ros",
-  "license": "ISC",
   "private": true,
   "dependencies": {
     "@ckeditor/ckeditor5-basic-styles": "^11.1.3",

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "CKEditor 5 plugin to support the <cite> tag",
   "author": "Renette Ros",
-  "license": "ISC",
+  "license": "MIT",
   "main": "cite.js",
   "repository": {
     "type": "git",
